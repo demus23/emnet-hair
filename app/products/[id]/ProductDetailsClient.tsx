@@ -13,6 +13,7 @@ export default function ProductDetailsClient({ product }: { product: any }) {
   const [selectedImage, setSelectedImage] = useState(images[0]);
   const [quantity, setQuantity] = useState(1);
   const [selectedLength, setSelectedLength] = useState("");
+  const [selectedGram, setSelectedGram] = useState("");
   const [selectedTexture, setSelectedTexture] = useState("");
   const [selectedColor, setSelectedColor] = useState("Natural Black");
 
@@ -49,7 +50,14 @@ export default function ProductDetailsClient({ product }: { product: any }) {
       ? product.lengths
       : product.length
       ? product.length.split(",").map((x: string) => x.trim())
-      : ["10 inch", "12 inch", "14 inch", "16 inch"];
+      : [];
+
+  const grams =
+    product.grams?.length > 0
+      ? product.grams
+      : product.gram
+      ? product.gram.split(",").map((x: string) => x.trim())
+      : [];
 
   const textures =
     product.textures?.length > 0
@@ -63,6 +71,16 @@ export default function ProductDetailsClient({ product }: { product: any }) {
       ? product.colors
       : ["Natural Black", "Custom Color"];
 
+  const selectedVariant = product.variants?.find(
+    (variant: any) =>
+      variant.length === selectedLength && variant.gram === selectedGram
+  );
+
+  const hasVariants = product.variants?.length > 0;
+  const displayPrice = selectedVariant?.price || product.price;
+  const displayStock = selectedVariant?.stock ?? product.stock;
+  const canAddToCart = hasVariants ? !!selectedVariant && displayStock > 0 : displayStock > 0;
+
   const care =
     product.care?.length > 0
       ? product.care
@@ -75,8 +93,13 @@ export default function ProductDetailsClient({ product }: { product: any }) {
         ];
 
   function handleAddToCart() {
-    if (product.stock <= 0) {
-      alert("This product is currently out of stock.");
+    if (hasVariants && !selectedVariant) {
+      alert("Please choose length and gram first.");
+      return;
+    }
+
+    if (displayStock <= 0) {
+      alert("This option is currently out of stock.");
       return;
     }
 
@@ -85,11 +108,12 @@ export default function ProductDetailsClient({ product }: { product: any }) {
     const item = {
       id: product._id,
       name: product.name,
-      price: product.price,
+      price: displayPrice,
       image: images[0],
       category: product.category,
       quantity,
       selectedLength,
+      selectedGram,
       selectedTexture,
       selectedColor,
     };
@@ -104,7 +128,7 @@ export default function ProductDetailsClient({ product }: { product: any }) {
     const item = {
       id: product._id,
       name: product.name,
-      price: product.price,
+      price: displayPrice,
       image: images[0],
       category: product.category,
     };
@@ -236,17 +260,17 @@ export default function ProductDetailsClient({ product }: { product: any }) {
             </h1>
 
             <p className="mt-6 text-3xl font-bold text-[#8b3a4a]">
-              AED {product.price}
+              AED {displayPrice}
             </p>
 
             <div className="mt-4">
-              {product.stock <= 0 ? (
+              {displayStock <= 0 ? (
                 <span className="rounded-full bg-red-100 px-4 py-2 text-sm font-semibold text-red-700">
                   Out of Stock
                 </span>
-              ) : product.stock <= 5 ? (
+              ) : displayStock <= 5 ? (
                 <span className="rounded-full bg-yellow-100 px-4 py-2 text-sm font-semibold text-yellow-700">
-                  Only {product.stock} left
+                  Only {displayStock} left
                 </span>
               ) : (
                 <span className="rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700">
@@ -254,6 +278,12 @@ export default function ProductDetailsClient({ product }: { product: any }) {
                 </span>
               )}
             </div>
+
+            {hasVariants && !selectedVariant && (
+              <p className="mt-3 text-sm font-semibold text-[#8b3a4a]">
+                Choose length and gram to see the exact price.
+              </p>
+            )}
 
             {product.description && (
               <p className="mt-6 text-lg leading-8 text-[#7A6550]">
@@ -276,26 +306,58 @@ export default function ProductDetailsClient({ product }: { product: any }) {
               </div>
             </div>
 
-            <div className="mt-8">
-              <h3 className="mb-4 font-bold uppercase tracking-[0.2em]">
-                Length
-              </h3>
-              <div className="flex flex-wrap gap-3">
-                {lengths.map((length: string) => (
-                  <button
-                    key={length}
-                    onClick={() => setSelectedLength(length)}
-                    className={`rounded-full border px-7 py-4 font-bold ${
-                      selectedLength === length
-                        ? "border-[#C9A978] bg-[#EDE3D6]"
-                        : "border-[#E8D9C6] bg-white"
-                    }`}
-                  >
-                    {length}
-                  </button>
-                ))}
+            {lengths.length > 0 && (
+              <div className="mt-8">
+                <h3 className="mb-4 font-bold uppercase tracking-[0.2em]">
+                  Length
+                </h3>
+                <div className="flex flex-wrap gap-3">
+                  {lengths.map((length: string) => (
+                    <button
+                      key={length}
+                      onClick={() => {
+                        setSelectedLength(length);
+                        setQuantity(1);
+                      }}
+                      className={`rounded-full border px-7 py-4 font-bold ${
+                        selectedLength === length
+                          ? "border-[#C9A978] bg-[#EDE3D6]"
+                          : "border-[#E8D9C6] bg-white"
+                      }`}
+                    >
+                      {length}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
+
+            {grams.length > 0 && (
+              <div className="mt-8">
+                <h3 className="mb-4 font-bold uppercase tracking-[0.2em]">
+                  Gram
+                </h3>
+
+                <div className="flex flex-wrap gap-3">
+                  {grams.map((gram: string) => (
+                    <button
+                      key={gram}
+                      onClick={() => {
+                        setSelectedGram(gram);
+                        setQuantity(1);
+                      }}
+                      className={`rounded-full border px-7 py-4 font-bold ${
+                        selectedGram === gram
+                          ? "border-[#C9A978] bg-[#EDE3D6]"
+                          : "border-[#E8D9C6] bg-white"
+                      }`}
+                    >
+                      {gram}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className="mt-8">
               <h3 className="mb-4 font-bold uppercase tracking-[0.2em]">
@@ -350,10 +412,12 @@ export default function ProductDetailsClient({ product }: { product: any }) {
                 >
                   -
                 </button>
+
                 <span className="text-2xl font-bold">{quantity}</span>
+
                 <button
                   onClick={() => setQuantity(quantity + 1)}
-                  disabled={product.stock > 0 && quantity >= product.stock}
+                  disabled={displayStock > 0 && quantity >= displayStock}
                   className="h-14 w-14 rounded-full border bg-white text-2xl font-bold disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   +
@@ -364,10 +428,14 @@ export default function ProductDetailsClient({ product }: { product: any }) {
             <div className="mt-10 grid gap-4 sm:grid-cols-2">
               <button
                 onClick={handleAddToCart}
-                disabled={product.stock <= 0}
+                disabled={!canAddToCart}
                 className="rounded-full bg-[#C9A978] px-10 py-5 font-bold text-white disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {product.stock <= 0 ? "Out of Stock" : "Add to Cart"}
+                {displayStock <= 0
+                  ? "Out of Stock"
+                  : hasVariants && !selectedVariant
+                  ? "Choose Length & Gram"
+                  : "Add to Cart"}
               </button>
 
               <button

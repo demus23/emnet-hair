@@ -33,10 +33,24 @@ export default function Footer() {
               and premium hair care.
             </p>
             <p className="mt-5 text-[14px] text-white/60">
-              WhatsApp: +971 58 821 1978
+              WhatsApp:{" "}
+              <a
+                href="https://wa.me/971588211978"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-white"
+              >
+                +971 58 821 1978
+              </a>
             </p>
             <p className="text-[14px] text-white/60">
-              Email: emnetshair@gmail.com
+              Email:{" "}
+              <a
+                href="mailto:emnetshair@gmail.com"
+                className="transition hover:text-white"
+              >
+                emnetshair@gmail.com
+              </a>
             </p>
           </div>
 
@@ -91,10 +105,31 @@ export default function Footer() {
               Follow Us
             </h4>
             <div className="mt-5 space-y-3 text-[14px] text-white/50">
-              <p>https://www.instagram.com/emnet_human_hair?igsh=MW1wZzkyemdtZzF2eQ%3D%3D&utm_source=qr</p>
-              <p>https://www.tiktok.com/@emnethair?_r=1&_t=ZS-97Wimjr0Xiv</p>
+              <a
+                href="https://www.instagram.com/emnet_human_hair?igsh=MW1wZzkyemdtZzF2eQ%3D%3D&utm_source=qr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block transition hover:text-white"
+              >
+                Instagram
+              </a>
+              <a
+                href="https://www.tiktok.com/@emnethair?_r=1&_t=ZS-97Wimjr0Xiv"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block transition hover:text-white"
+              >
+                TikTok
+              </a>
               <p>Facebook: Emnet Hair</p>
-              <p>WhatsApp Orders Available wa.me/971588211978</p>
+              <a
+                href="https://wa.me/971588211978"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block transition hover:text-white"
+              >
+                WhatsApp Orders
+              </a>
             </div>
 
             <p className="mt-9 text-[12px] uppercase tracking-[0.15em] text-[#A8895F]">

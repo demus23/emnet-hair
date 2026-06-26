@@ -1,171 +1,176 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { products } from "@/data/products";
-import { getCart, saveCart, type Product as CartProduct } from "@/lib/cart";
-import { notifyCartUpdated } from "@/lib/events";
-import QuickView from "@/components/QuickView";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { motion } from "framer-motion";
 
 export default function ProductCatalog() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedTexture, setSelectedTexture] = useState("All");
-  const [selectedLength, setSelectedLength] = useState("All");
-  const [sortBy, setSortBy] = useState("featured");
-  const [quickViewProduct, setQuickViewProduct] = useState<any>(null);
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState("All");
 
-  function addToCart(product: (typeof products)[number]) {
-    const cart = getCart();
-    const productItem = product as CartProduct;
+  const searchParams = useSearchParams();
 
-    const existingItem = cart.find((item) => item.id === productItem.id);
-
-    if (existingItem) {
-      saveCart(
-        cart.map((item) =>
-          item.id === productItem.id
-            ? { ...item, quantity: (item.quantity || 1) + 1 }
-            : item
-        )
-      );
-    } else {
-      saveCart([...cart, { ...productItem, quantity: 1 }]);
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        setProducts(data.products || []);
+      } catch (error) {
+        console.error("Product load error:", error);
+      } finally {
+        setLoading(false);
+      }
     }
 
-    notifyCartUpdated();
-  }
+    loadProducts();
+  }, []);
 
-  const filteredProducts = products
-    .filter((p) => selectedCategory === "All" || p.category === selectedCategory)
-    .filter((p) => selectedTexture === "All" || p.textures.includes(selectedTexture))
-    .filter((p) => selectedLength === "All" || p.lengths.includes(selectedLength))
-    .sort((a, b) => {
-      if (sortBy === "price-low") return a.price - b.price;
-      if (sortBy === "price-high") return b.price - a.price;
-      if (sortBy === "rating") return b.rating - a.rating;
-      return a.id - b.id;
+  // Pre-select a category if the page was linked with ?category=...
+  useEffect(() => {
+    const fromUrl = searchParams.get("category");
+    if (fromUrl) {
+      setActiveCategory(fromUrl);
+    }
+  }, [searchParams]);
+
+  const categories = useMemo(() => {
+    const unique = new Set<string>();
+    products.forEach((product) => {
+      if (product.category) unique.add(product.category);
     });
+    return ["All", ...Array.from(unique)];
+  }, [products]);
+
+  const filteredProducts = useMemo(() => {
+    if (activeCategory === "All") return products;
+    return products.filter(
+      (product) =>
+        (product.category || "").toLowerCase() ===
+        activeCategory.toLowerCase()
+    );
+  }, [products, activeCategory]);
 
   return (
-    <section id="products" className="px-6 py-24 md:px-12">
+    <section className="bg-[#F7F3ED] px-6 py-28 md:px-12">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-14 text-center">
-          <p className="text-sm font-bold uppercase tracking-[0.35em] text-[#c79b3b]">
-            Luxury Collection
+        <div className="mb-12 text-center">
+          <p className="text-[13px] font-medium uppercase tracking-[0.3em] text-[#A8895F]">
+            Our Collection
           </p>
-          <h2 className="mt-4 text-4xl font-bold text-[#1f1512] md:text-5xl">
-            Shop Premium Human Hair
+
+          <h2 className="mt-5 font-serif text-4xl text-[#1C1410] md:text-5xl">
+            Premium human hair
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-[#6c5a50]">
-            Discover wigs, ponytails, bundles, and textured human hair crafted for elegance.
+
+          <p className="mx-auto mt-6 max-w-xl text-[17px] leading-8 text-[#5E5248]">
+            Discover luxury human hair, wigs, ponytails, clip-ins and
+            textured curls.
           </p>
         </div>
 
-        <div className="mb-12 rounded-[32px] border border-[#ead8c5] bg-white p-6 shadow-xl">
-          <div className="grid gap-4 md:grid-cols-4">
-            {[
-              ["category", selectedCategory, setSelectedCategory, ["All", "Human Hair", "Wigs", "Ponytail", "Extensions"]],
-              ["texture", selectedTexture, setSelectedTexture, ["All", "Deep Curly", "Soft Curly", "Loose Curly", "Water Wavy", "Wavy", "Straight", "Curly"]],
-              ["length", selectedLength, setSelectedLength, ["All", "10 inch", "12 inch", "14 inch", "16 inch", "18 inch", "20 inch", "22 inch", "24 inch", "26 inch", "28 inch", "30 inch"]],
-            ].map(([label, value, setter, options]: any) => (
-              <select
-                key={label}
-                value={value}
-                onChange={(e) => setter(e.target.value)}
-                className="rounded-full border border-[#d8cabb] bg-white px-5 py-4 text-[#1f1512] outline-none"
-              >
-                {options.map((option: string) => (
-                  <option key={option} value={option}>
-                    {option === "All" ? `All ${label}s` : option}
-                  </option>
-                ))}
-              </select>
-            ))}
+        {!loading && products.length > 0 && (
+          <div className="mb-14 flex flex-wrap justify-center gap-3">
+            {categories.map((category) => {
+              const isActive = activeCategory === category;
+              return (
+                <button
+                  key={category}
+                  onClick={() => setActiveCategory(category)}
+                  className={`border px-5 py-2.5 text-[12px] font-medium uppercase tracking-[0.15em] transition ${
+                    isActive
+                      ? "border-[#1C1410] bg-[#1C1410] text-white"
+                      : "border-[#E3D9C9] bg-white text-[#5E5248] hover:border-[#A8895F] hover:text-[#1C1410]"
+                  }`}
+                >
+                  {category}
+                </button>
+              );
+            })}
+          </div>
+        )}
 
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="rounded-full border border-[#d8cabb] bg-white px-5 py-4 text-[#1f1512] outline-none"
+        {loading && (
+          <p className="text-center text-[#5E5248]">Loading products...</p>
+        )}
+
+        {!loading && products.length === 0 && (
+          <div className="border border-[#E3D9C9] bg-white p-12 text-center">
+            <h3 className="font-serif text-2xl text-[#1C1410]">
+              No products yet
+            </h3>
+            <p className="mt-2 text-[15px] text-[#5E5248]">
+              Add products from the admin dashboard.
+            </p>
+          </div>
+        )}
+
+        {!loading && products.length > 0 && filteredProducts.length === 0 && (
+          <div className="border border-[#E3D9C9] bg-white p-12 text-center">
+            <h3 className="font-serif text-2xl text-[#1C1410]">
+              No products in this category yet
+            </h3>
+            <p className="mt-2 text-[15px] text-[#5E5248]">
+              Try another category or check back soon.
+            </p>
+          </div>
+        )}
+
+        <div className="grid gap-px overflow-hidden border border-[#E3D9C9] bg-[#E3D9C9] sm:grid-cols-2 lg:grid-cols-4">
+          {filteredProducts.map((product, index) => (
+            <Link
+              key={product._id}
+              href={`/products/${product._id}`}
+              className="group bg-white transition hover:bg-[#FBF8F3]"
             >
-              <option value="featured">Sort: Featured</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="rating">Highest Rated</option>
-            </select>
-          </div>
-
-          <div className="mt-5 flex justify-between text-sm text-[#6c5a50]">
-            <p>Showing <b>{filteredProducts.length}</b> products</p>
-            <button
-              onClick={() => {
-                setSelectedCategory("All");
-                setSelectedTexture("All");
-                setSelectedLength("All");
-                setSortBy("featured");
-              }}
-              className="font-bold text-[#8b3a4a]"
-            >
-              Clear Filters
-            </button>
-          </div>
-        </div>
-
-        {filteredProducts.length === 0 ? (
-          <div className="rounded-[35px] bg-white p-12 text-center shadow-xl">
-            <h3 className="text-2xl font-bold text-[#8b3a4a]">No products found</h3>
-            <p className="mt-3 text-[#6c5a50]">Try changing the filters.</p>
-          </div>
-        ) : (
-          <div className="grid gap-8 md:grid-cols-3">
-            {filteredProducts.map((product) => (
-              <Link
-                href={`/products/${product.id}`}
-                key={product.id}
-                className="group overflow-hidden rounded-[35px] bg-white shadow-xl transition hover:-translate-y-2 hover:shadow-2xl"
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.5,
+                  delay: Math.min(index, 7) * 0.08,
+                  ease: "easeOut",
+                }}
+                viewport={{ once: true, amount: 0.2 }}
               >
-                <div className="overflow-hidden bg-[#f8f4ee]">
+                <div className="overflow-hidden bg-[#E3D9C9]">
                   <img
-                    src={product.image}
+                    src={product.images?.[0] || "/placeholder.jpg"}
                     alt={product.name}
-                    className="h-[420px] w-full object-cover transition duration-500 group-hover:scale-105"
+                    className="h-72 w-full object-cover transition duration-500 group-hover:scale-105"
                   />
                 </div>
 
-                <div className="p-7">
-                  <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#c79b3b]">
-                    {product.category}
+                <div className="p-6">
+                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#A8895F]">
+                    {product.category || "Luxury Hair"}
                   </p>
 
-                  <h3 className="mt-3 min-h-[65px] text-2xl font-bold text-[#1f1512]">
+                  <h3 className="mt-3 font-serif text-xl text-[#1C1410]">
                     {product.name}
                   </h3>
 
-                  <div className="mt-5 flex items-center justify-between">
-                    <p className="text-2xl font-bold text-[#8b3a4a]">AED {product.price}</p>
-                    <span className="text-sm text-[#6c5a50]">★ {product.rating}</span>
-                  </div>
+                  <p className="mt-2 line-clamp-2 text-[14px] leading-6 text-[#5E5248]">
+                    {product.description}
+                  </p>
 
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      addToCart(product);
-                    }}
-                    className="mt-3 w-full rounded-full bg-[#1f1512] py-4 font-bold text-white"
-                  >
-                    Add to Cart
-                  </button>
+                  <div className="mt-6 flex items-center justify-between border-t border-[#E3D9C9] pt-5">
+                    <p className="font-serif text-lg text-[#1C1410]">
+                      AED {product.price}
+                    </p>
+
+                    <span className="text-[12px] font-medium uppercase tracking-[0.15em] text-[#A8895F]">
+                      View →
+                    </span>
+                  </div>
                 </div>
-              </Link>
-            ))}
-          </div>
-        )}
+              </motion.div>
+            </Link>
+          ))}
+        </div>
       </div>
-      <QuickView
-  product={quickViewProduct}
-  open={!!quickViewProduct}
-  onClose={() => setQuickViewProduct(null)}
-  onAddToCart={addToCart}
-/>
     </section>
   );
 }

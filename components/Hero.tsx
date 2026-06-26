@@ -1,127 +1,73 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-[#f8f4ee] px-6 pb-24 pt-10 md:px-12">
-      {/* Background Glow */}
-      <div className="absolute left-[-120px] top-[-120px] h-[350px] w-[350px] rounded-full bg-[#c79b3b]/20 blur-3xl" />
-
-      <div className="absolute bottom-[-150px] right-[-120px] h-[350px] w-[350px] rounded-full bg-[#8b3a4a]/10 blur-3xl" />
-
-      <div className="relative mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-2">
-        
-        {/* LEFT */}
-        <div>
-          <p className="text-sm font-bold uppercase tracking-[0.4em] text-[#c79b3b]">
-            Luxury Human Hair
+    <section className="bg-[#F7F3ED] px-6 pb-24 pt-16 md:px-12 md:pt-24">
+      <div className="mx-auto grid max-w-7xl items-center gap-16 lg:grid-cols-2">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <p className="text-[13px] font-medium uppercase tracking-[0.3em] text-[#A8895F]">
+            Luxury Human Hair — Dubai
           </p>
 
-          <h1 className="mt-6 text-5xl font-bold leading-tight text-[#1f1512] md:text-7xl">
-            Authentic Hair
-            <span className="block text-[#8b3a4a]">
-              Designed For Confidence
-            </span>
+          <h1 className="mt-7 font-serif text-[3.25rem] leading-[1.05] tracking-tight text-[#1C1410] md:text-[4.5rem]">
+            Hair, restored
+            <br />
+            to its truest
+            <br />
+            <span className="italic text-[#5C2A2E]">self.</span>
           </h1>
 
-          <p className="mt-8 max-w-2xl text-lg leading-9 text-[#5f5147]">
-            Premium virgin human hair, luxury wigs, custom ponytails,
-            clip-ins, and textured curls crafted for women who love
-            elegance, softness, and timeless beauty.
+          <p className="mt-7 max-w-md text-[17px] leading-8 text-[#5E5248]">
+            Ethically sourced virgin human hair, selected by hand and
+            finished with quiet precision — for women who notice the
+            difference.
           </p>
 
-          {/* Buttons */}
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+          <div className="mt-10 flex flex-wrap items-center gap-8">
             <Link
-  href="/shop"
-  className="rounded-full bg-gradient-to-r from-[#b98524] to-[#d6af55] px-10 py-5 text-center font-bold text-white shadow-xl transition hover:scale-[1.02]"
->
-  Shop Collection
-</Link>
+              href="/shop"
+              className="border border-[#1C1410] bg-[#1C1410] px-9 py-4 text-[13px] font-medium uppercase tracking-[0.2em] text-[#F7F3ED] transition hover:bg-transparent hover:text-[#1C1410]"
+            >
+              Shop the collection
+            </Link>
 
-<Link
-  href="/shop"
-  className="rounded-full border border-[#d8cabb] bg-white px-10 py-5 text-center font-bold text-[#1f1512] transition hover:border-[#c79b3b]"
->
-  Explore Wigs
-</Link>
+            <Link
+              href="/shop"
+              className="text-[13px] font-medium uppercase tracking-[0.2em] text-[#1C1410] underline decoration-[#A8895F] decoration-1 underline-offset-8"
+            >
+              Explore wigs
+            </Link>
           </div>
+        </motion.div>
 
-          {/* Stats */}
-          <div className="mt-14 grid grid-cols-3 gap-6">
-            <div>
-              <h3 className="text-3xl font-bold text-[#1f1512]">
-                10K+
-              </h3>
-
-              <p className="mt-2 text-sm text-[#8b7b70]">
-                Happy Customers
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-3xl font-bold text-[#1f1512]">
-                100%
-              </h3>
-
-              <p className="mt-2 text-sm text-[#8b7b70]">
-                Virgin Human Hair
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-3xl font-bold text-[#1f1512]">
-                18M
-              </h3>
-
-              <p className="mt-2 text-sm text-[#8b7b70]">
-                Long Lasting Quality
-              </p>
-            </div>
-          </div>
-
-          {/* Trust */}
-          <div className="mt-10 flex flex-wrap gap-3">
-            {[
-              "Ethically Sourced",
-              "Luxury Quality",
-              "Custom Colors",
-              "Worldwide Shipping",
-            ].map((item) => (
-              <div
-                key={item}
-                className="rounded-full border border-[#e7ddd1] bg-white px-5 py-3 text-sm font-semibold text-[#5f5147]"
-              >
-                {item}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* RIGHT */}
-        <div className="relative">
-          <div className="overflow-hidden rounded-[45px] bg-white shadow-2xl">
+        <motion.div
+          className="relative"
+          initial={{ opacity: 0, scale: 0.97 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, delay: 0.15, ease: "easeOut" }}
+        >
+          <div className="aspect-[4/5] w-full overflow-hidden bg-[#E3D9C9]">
             <img
               src="/hero-hair.jpg"
               alt="Emnet Hair"
-              className="h-[780px] w-full object-cover"
+              className="h-full w-full object-cover"
             />
           </div>
 
-          {/* Floating card */}
-          <div className="absolute bottom-8 left-8 rounded-[30px] bg-white/90 p-6 shadow-xl backdrop-blur">
-            <p className="text-sm uppercase tracking-[0.3em] text-[#c79b3b]">
-              Bestseller
-            </p>
-
-            <h3 className="mt-2 text-2xl font-bold text-[#1f1512]">
-              Deep Curly Collection
-            </h3>
-
-            <p className="mt-2 text-[#5f5147]">
-              Soft · Full · Natural
+          <div className="absolute -bottom-6 -left-6 hidden border border-[#E3D9C9] bg-[#F7F3ED] px-7 py-5 md:block">
+            <p className="font-serif text-2xl text-[#1C1410]">100%</p>
+            <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-[#5E5248]">
+              Virgin human hair
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

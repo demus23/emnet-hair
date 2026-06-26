@@ -2,74 +2,108 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="mt-20 bg-[#1f1512] px-6 py-16 text-white md:px-12">
+    <footer className="mt-20 bg-[#1C1410] px-6 py-20 text-white md:px-12">
       <div className="mx-auto max-w-7xl">
-        <div className="rounded-[35px] bg-white/10 p-10 text-center">
-          <h2 className="text-4xl font-bold">Join Emnet Hair</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-white/70">
-            Get exclusive offers, hair care tips, and early access to new collections.
+        <div className="border border-white/10 p-12 text-center">
+          <h2 className="font-serif text-4xl">Join Emnet Hair</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-7 text-white/60">
+            Get exclusive offers, hair care tips, and early access to
+            new collections.
           </p>
 
-          <div className="mx-auto mt-8 flex max-w-xl flex-col gap-3 sm:flex-row">
+          <div className="mx-auto mt-9 flex max-w-xl flex-col gap-3 sm:flex-row">
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 rounded-full px-6 py-4 text-black outline-none"
+              className="flex-1 border border-white/15 bg-transparent px-6 py-4 text-[15px] text-white outline-none placeholder:text-white/40 focus:border-[#A8895F]"
             />
-            <button className="rounded-full bg-[#c79b3b] px-8 py-4 font-bold text-white">
+            <button className="border border-[#A8895F] bg-[#A8895F] px-8 py-4 text-[13px] font-medium uppercase tracking-[0.15em] text-[#1C1410] transition hover:bg-transparent hover:text-[#A8895F]">
               Subscribe
             </button>
           </div>
         </div>
 
-        <div className="mt-16 grid gap-10 md:grid-cols-4">
+        <div className="mt-20 grid gap-12 md:grid-cols-4">
           <div>
-            <h3 className="text-3xl font-bold text-[#c79b3b]">Emnet Hair</h3>
-            <p className="mt-5 leading-8 text-white/60">
-              Luxury authentic human hair, wigs, ponytails, extensions, and premium hair care.
+            <h3 className="font-serif text-2xl text-[#A8895F]">
+              Emnet Hair
+            </h3>
+            <p className="mt-5 text-[15px] leading-7 text-white/50">
+              Luxury authentic human hair, wigs, ponytails, extensions,
+              and premium hair care.
             </p>
-            <p className="mt-5 text-white/70">WhatsApp: +971 XX XXX XXXX</p>
-            <p className="text-white/70">Email: hello@emnethair.com</p>
+            <p className="mt-5 text-[14px] text-white/60">
+              WhatsApp: +971 58 821 1978
+            </p>
+            <p className="text-[14px] text-white/60">
+              Email: emnetshair@gmail.com
+            </p>
           </div>
 
           <div>
-            <h4 className="font-bold uppercase tracking-wider">Shop</h4>
-            <div className="mt-5 space-y-3 text-white/60">
-              <Link href="/shop" className="block">Human Hair</Link>
-              <Link href="/shop" className="block">Wigs</Link>
-              <Link href="/shop" className="block">Ponytails</Link>
-              <Link href="/shop" className="block">Clip-ins</Link>
+            <h4 className="text-[12px] font-medium uppercase tracking-[0.2em] text-white/80">
+              Shop
+            </h4>
+            <div className="mt-5 space-y-3 text-[14px] text-white/50">
+              <Link href="/shop" className="block transition hover:text-white">
+                Human Hair
+              </Link>
+              <Link href="/shop" className="block transition hover:text-white">
+                Wigs
+              </Link>
+              <Link href="/shop" className="block transition hover:text-white">
+                Ponytails
+              </Link>
+              <Link href="/shop" className="block transition hover:text-white">
+                Clip-ins
+              </Link>
             </div>
           </div>
 
           <div>
-            <h4 className="font-bold uppercase tracking-wider">Help</h4>
-            <div className="mt-5 space-y-3 text-white/60">
-              <Link href="/about" className="block">About</Link>
-              <Link href="/contact" className="block">Contact</Link>
-              <Link href="/shipping" className="block">Shipping</Link>
-              <Link href="/returns" className="block">Returns</Link>
-              <Link href="/privacy" className="block">Privacy Policy</Link>
-              <Link href="/terms" className="block">Terms</Link>
+            <h4 className="text-[12px] font-medium uppercase tracking-[0.2em] text-white/80">
+              Help
+            </h4>
+            <div className="mt-5 space-y-3 text-[14px] text-white/50">
+              <Link href="/about" className="block transition hover:text-white">
+                About
+              </Link>
+              <Link href="/contact" className="block transition hover:text-white">
+                Contact
+              </Link>
+              <Link href="/shipping" className="block transition hover:text-white">
+                Shipping
+              </Link>
+              <Link href="/returns" className="block transition hover:text-white">
+                Returns
+              </Link>
+              <Link href="/privacy" className="block transition hover:text-white">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="block transition hover:text-white">
+                Terms
+              </Link>
             </div>
           </div>
 
           <div>
-            <h4 className="font-bold uppercase tracking-wider">Follow Us</h4>
-            <div className="mt-5 space-y-3 text-white/60">
+            <h4 className="text-[12px] font-medium uppercase tracking-[0.2em] text-white/80">
+              Follow Us
+            </h4>
+            <div className="mt-5 space-y-3 text-[14px] text-white/50">
               <p>Instagram: @emnethair</p>
               <p>TikTok: @emnethair</p>
               <p>Facebook: Emnet Hair</p>
               <p>WhatsApp Orders Available</p>
             </div>
 
-            <p className="mt-8 text-sm text-[#c79b3b]">
+            <p className="mt-9 text-[12px] uppercase tracking-[0.15em] text-[#A8895F]">
               Visa · Mastercard · PayPal · Apple Pay
             </p>
           </div>
         </div>
 
-        <div className="mt-14 border-t border-white/10 pt-6 text-center text-sm text-white/40">
+        <div className="mt-16 border-t border-white/10 pt-7 text-center text-[12px] text-white/35">
           © 2026 Emnet Hair. All rights reserved.
         </div>
       </div>

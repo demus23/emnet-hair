@@ -1,51 +1,48 @@
+"use client";
+
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { guides } from "@/data/education";
+
 export default function Education() {
   return (
-    <section className="px-6 py-24 md:px-12">
+    <section className="bg-white px-6 py-28 md:px-12">
       <div className="mx-auto max-w-7xl">
         <div className="text-center">
-          <p className="text-sm font-bold uppercase tracking-[0.35em] text-[#c79b3b]">
+          <p className="text-[13px] font-medium uppercase tracking-[0.3em] text-[#A8895F]">
             Hair Education
           </p>
 
-          <h2 className="mt-4 text-4xl font-bold md:text-5xl">
-            Learn Before You Buy
+          <h2 className="mt-5 font-serif text-4xl text-[#1C1410] md:text-5xl">
+            Learn before you buy
           </h2>
         </div>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {[
-            {
-              title: "How many bundles do I need?",
-              text:
-                "Understand how many bundles are needed for each hairstyle and length.",
-            },
-            {
-              title: "Beginner Hair Guide",
-              text:
-                "New to human hair? Learn textures, lengths, density, and maintenance.",
-            },
-            {
-              title: "Hair Care Tips",
-              text:
-                "Keep your curls, waves, and wigs soft and long-lasting with proper care.",
-            },
-          ].map((item) => (
-            <div
-              key={item.title}
-              className="rounded-[35px] bg-white p-8 shadow-xl"
+        <div className="mt-16 grid gap-px overflow-hidden border border-[#E3D9C9] bg-[#E3D9C9] md:grid-cols-3">
+          {guides.map((guide, index) => (
+            <motion.div
+              key={guide.slug}
+              className="bg-white p-10"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.12, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.3 }}
             >
-              <h3 className="text-2xl font-bold text-[#8b3a4a]">
-                {item.title}
+              <h3 className="font-serif text-2xl text-[#1C1410]">
+                {guide.title}
               </h3>
 
-              <p className="mt-5 leading-8 text-[#5f5147]">
-                {item.text}
+              <p className="mt-5 text-[15px] leading-7 text-[#5E5248]">
+                {guide.excerpt}
               </p>
 
-              <button className="mt-7 font-bold text-[#c79b3b]">
-                Read More →
-              </button>
-            </div>
+              <Link
+                href={`/learn/${guide.slug}`}
+                className="mt-8 inline-block text-[13px] font-medium uppercase tracking-[0.15em] text-[#A8895F] underline decoration-1 underline-offset-4 transition hover:text-[#5C2A2E]"
+              >
+                Read more
+              </Link>
+            </motion.div>
           ))}
         </div>
       </div>

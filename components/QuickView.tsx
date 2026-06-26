@@ -34,21 +34,19 @@ export default function QuickView({
   const [quantity, setQuantity] = useState(1);
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-6 backdrop-blur-sm">
-      <div className="relative max-h-[95vh] w-full max-w-6xl overflow-auto rounded-[40px] bg-[#f8f4ee] shadow-2xl">
-        
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#1C1410]/60 p-6 backdrop-blur-sm">
+      <div className="relative max-h-[95vh] w-full max-w-6xl overflow-auto border border-[#E3D9C9] bg-[#F7F3ED]">
         <button
           onClick={onClose}
-          className="absolute right-6 top-6 z-20 h-12 w-12 rounded-full bg-white text-2xl font-bold shadow-lg"
+          className="absolute right-6 top-6 z-20 flex h-11 w-11 items-center justify-center border border-[#E3D9C9] bg-white text-xl text-[#1C1410]"
         >
           ×
         </button>
 
-        <div className="grid gap-10 lg:grid-cols-2">
-
+        <div className="grid gap-px md:grid-cols-2">
           {/* IMAGE */}
-          <div className="p-6">
-            <div className="overflow-hidden rounded-[35px] bg-white shadow-xl">
+          <div className="bg-white p-6">
+            <div className="overflow-hidden bg-[#E3D9C9]">
               <Image
                 src={product.image}
                 alt={product.name}
@@ -60,37 +58,34 @@ export default function QuickView({
           </div>
 
           {/* CONTENT */}
-          <div className="flex flex-col justify-center p-8">
-
-            <p className="text-sm font-bold uppercase tracking-[0.35em] text-[#c79b3b]">
+          <div className="flex flex-col justify-center bg-[#F7F3ED] p-10">
+            <p className="text-[12px] font-medium uppercase tracking-[0.3em] text-[#A8895F]">
               {product.category}
             </p>
 
-            <h2 className="mt-4 text-5xl font-bold text-[#1f1512]">
+            <h2 className="mt-4 font-serif text-4xl text-[#1C1410]">
               {product.name}
             </h2>
 
             <div className="mt-5 flex items-center gap-4">
-              <span className="text-xl text-[#c79b3b]">
-                ★★★★★
-              </span>
+              <span className="text-base text-[#A8895F]">★★★★★</span>
 
-              <span className="text-[#6c5a50]">
+              <span className="text-[14px] text-[#5E5248]">
                 {product.rating} ({product.reviews} reviews)
               </span>
             </div>
 
-            <p className="mt-6 text-4xl font-bold text-[#8b3a4a]">
+            <p className="mt-6 font-serif text-3xl text-[#5C2A2E]">
               AED {product.price}
             </p>
 
-            <p className="mt-6 leading-8 text-[#5f5147]">
+            <p className="mt-6 text-[15px] leading-7 text-[#5E5248]">
               {product.detail}
             </p>
 
             {/* LENGTH */}
-            <div className="mt-8">
-              <h3 className="mb-4 text-sm font-bold uppercase tracking-wider">
+            <div className="mt-9">
+              <h3 className="mb-4 text-[12px] font-medium uppercase tracking-[0.2em] text-[#1C1410]">
                 Length
               </h3>
 
@@ -98,13 +93,11 @@ export default function QuickView({
                 {product.lengths?.map((length: string) => (
                   <button
                     key={length}
-                    onClick={() =>
-                      setSelectedLength(length)
-                    }
-                    className={`rounded-full border px-5 py-3 text-sm font-semibold transition ${
+                    onClick={() => setSelectedLength(length)}
+                    className={`border px-5 py-3 text-[13px] font-medium transition ${
                       selectedLength === length
-                        ? "border-[#c79b3b] bg-[#fff7e8] text-[#a97716]"
-                        : "border-[#d8cabb] bg-white text-[#5f5147]"
+                        ? "border-[#A8895F] bg-[#A8895F] text-white"
+                        : "border-[#E3D9C9] bg-white text-[#5E5248]"
                     }`}
                   >
                     {length}
@@ -115,34 +108,30 @@ export default function QuickView({
 
             {/* TEXTURE */}
             <div className="mt-7">
-              <h3 className="mb-4 text-sm font-bold uppercase tracking-wider">
+              <h3 className="mb-4 text-[12px] font-medium uppercase tracking-[0.2em] text-[#1C1410]">
                 Texture
               </h3>
 
               <div className="flex flex-wrap gap-3">
-                {product.textures?.map(
-                  (texture: string) => (
-                    <button
-                      key={texture}
-                      onClick={() =>
-                        setSelectedTexture(texture)
-                      }
-                      className={`rounded-full border px-5 py-3 text-sm font-semibold transition ${
-                        selectedTexture === texture
-                          ? "border-[#c79b3b] bg-[#fff7e8] text-[#a97716]"
-                          : "border-[#d8cabb] bg-white text-[#5f5147]"
-                      }`}
-                    >
-                      {texture}
-                    </button>
-                  )
-                )}
+                {product.textures?.map((texture: string) => (
+                  <button
+                    key={texture}
+                    onClick={() => setSelectedTexture(texture)}
+                    className={`border px-5 py-3 text-[13px] font-medium transition ${
+                      selectedTexture === texture
+                        ? "border-[#A8895F] bg-[#A8895F] text-white"
+                        : "border-[#E3D9C9] bg-white text-[#5E5248]"
+                    }`}
+                  >
+                    {texture}
+                  </button>
+                ))}
               </div>
             </div>
 
             {/* COLOR */}
             <div className="mt-7">
-              <h3 className="mb-4 text-sm font-bold uppercase tracking-wider">
+              <h3 className="mb-4 text-[12px] font-medium uppercase tracking-[0.2em] text-[#1C1410]">
                 Color
               </h3>
 
@@ -150,13 +139,11 @@ export default function QuickView({
                 {product.colors?.map((color: string) => (
                   <button
                     key={color}
-                    onClick={() =>
-                      setSelectedColor(color)
-                    }
-                    className={`rounded-full border px-5 py-3 text-sm font-semibold transition ${
+                    onClick={() => setSelectedColor(color)}
+                    className={`border px-5 py-3 text-[13px] font-medium transition ${
                       selectedColor === color
-                        ? "border-[#c79b3b] bg-[#fff7e8] text-[#a97716]"
-                        : "border-[#d8cabb] bg-white text-[#5f5147]"
+                        ? "border-[#A8895F] bg-[#A8895F] text-white"
+                        : "border-[#E3D9C9] bg-white text-[#5E5248]"
                     }`}
                   >
                     {color}
@@ -167,31 +154,25 @@ export default function QuickView({
 
             {/* QUANTITY */}
             <div className="mt-7">
-              <h3 className="mb-4 text-sm font-bold uppercase tracking-wider">
+              <h3 className="mb-4 text-[12px] font-medium uppercase tracking-[0.2em] text-[#1C1410]">
                 Quantity
               </h3>
 
               <div className="flex items-center gap-4">
                 <button
-                  onClick={() =>
-                    setQuantity(
-                      Math.max(1, quantity - 1)
-                    )
-                  }
-                  className="h-11 w-11 rounded-full border border-[#d8cabb] bg-white text-xl font-bold"
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="flex h-11 w-11 items-center justify-center border border-[#E3D9C9] bg-white text-lg text-[#1C1410]"
                 >
                   -
                 </button>
 
-                <span className="text-lg font-bold">
+                <span className="text-[15px] font-medium text-[#1C1410]">
                   {quantity}
                 </span>
 
                 <button
-                  onClick={() =>
-                    setQuantity(quantity + 1)
-                  }
-                  className="h-11 w-11 rounded-full border border-[#d8cabb] bg-white text-xl font-bold"
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="flex h-11 w-11 items-center justify-center border border-[#E3D9C9] bg-white text-lg text-[#1C1410]"
                 >
                   +
                 </button>
@@ -200,7 +181,6 @@ export default function QuickView({
 
             {/* BUTTONS */}
             <div className="mt-10 flex flex-col gap-4">
-
               <button
                 onClick={() => {
                   onAddToCart({
@@ -213,16 +193,16 @@ export default function QuickView({
 
                   onClose();
                 }}
-                className="rounded-full bg-gradient-to-r from-[#b98524] to-[#d6af55] px-8 py-5 text-center font-bold text-white"
+                className="border border-[#1C1410] bg-[#1C1410] px-8 py-5 text-center text-[13px] font-medium uppercase tracking-[0.2em] text-white transition hover:bg-transparent hover:text-[#1C1410]"
               >
-                Add to Cart
+                Add to cart
               </button>
 
               <Link
                 href={`/products/${product.id}`}
-                className="rounded-full border border-[#d8cabb] bg-white px-8 py-5 text-center font-bold text-[#1f1512]"
+                className="border border-[#E3D9C9] bg-white px-8 py-5 text-center text-[13px] font-medium uppercase tracking-[0.2em] text-[#1C1410] transition hover:border-[#1C1410]"
               >
-                View Full Product
+                View full product
               </Link>
             </div>
           </div>

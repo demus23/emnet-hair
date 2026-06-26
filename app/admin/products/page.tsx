@@ -17,6 +17,8 @@ export default function AdminProductsPage() {
     textures: "",
     length: "",
     lengths: "",
+    gram: "",
+    grams: "",
     colors: "Natural Black, Custom Color",
     stock: "",
     description: "",
@@ -25,6 +27,7 @@ export default function AdminProductsPage() {
     rating: "5",
     reviews: "0",
     images: [] as string[],
+    variants: "",
   });
 
   async function loadProducts() {
@@ -85,6 +88,8 @@ export default function AdminProductsPage() {
         tag: "",
         texture: "",
         textures: "",
+        gram: "",
+        grams: "",
         length: "",
         lengths: "",
         colors: "Natural Black, Custom Color",
@@ -95,6 +100,7 @@ export default function AdminProductsPage() {
         rating: "5",
         reviews: "0",
         images: [],
+        variants: "",
       });
 
       loadProducts();
@@ -115,6 +121,8 @@ export default function AdminProductsPage() {
     textures: product.textures?.join(", ") || "",
     length: product.length || "",
     lengths: product.lengths?.join(", ") || "",
+    gram: product.gram || "",
+    grams: product.grams?.join(", ") || "",
     colors: product.colors?.join(", ") || "",
     stock: String(product.stock || ""),
     description: product.description || "",
@@ -124,6 +132,15 @@ export default function AdminProductsPage() {
     reviews: String(product.reviews || "0"),
     images: product.images || [],
     _id: product._id,
+    variants:
+  product.variants
+    ?.map(
+      (v: any) =>
+        `${v.length || ""} | ${v.gram || ""} | ${v.price || 0} | ${
+          v.stock || 0
+        }`
+    )
+    .join("\n") || "",
   } as any);
 
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -269,6 +286,28 @@ function resetForm() {
             onChange={(e) => setForm({ ...form, lengths: e.target.value })}
           />
 
+          <input
+  className="rounded-xl border p-3"
+  placeholder="Main gram e.g. 100g"
+  value={form.gram}
+  onChange={(e) => setForm({ ...form, gram: e.target.value })}
+/>
+
+<input
+  className="rounded-xl border p-3"
+  placeholder="Grams comma separated e.g. 100g, 150g, 200g"
+  value={form.grams}
+  onChange={(e) => setForm({ ...form, grams: e.target.value })}
+/>
+<textarea
+  className="rounded-xl border p-3 md:col-span-2"
+  placeholder={`Variants: Length | Gram | Price | Stock
+10 inch | 100g | 250 | 5
+12 inch | 100g | 300 | 5
+14 inch | 150g | 380 | 3`}
+  value={(form as any).variants}
+  onChange={(e) => setForm({ ...form, variants: e.target.value } as any)}
+/>
           <input
             className="rounded-xl border p-3"
             placeholder="Colors comma separated"

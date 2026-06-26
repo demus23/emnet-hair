@@ -1,5 +1,15 @@
 import mongoose, { Schema, models } from "mongoose";
 
+const VariantSchema = new Schema(
+  {
+    length: String,
+    gram: String,
+    price: Number,
+    stock: { type: Number, default: 0 },
+  },
+  { _id: false }
+);
+
 const ProductSchema = new Schema(
   {
     name: { type: String, required: true },
@@ -17,6 +27,11 @@ const ProductSchema = new Schema(
 
     length: String,
     lengths: [String],
+
+    gram: String,
+    grams: [String],
+
+    variants: [VariantSchema],
 
     colors: [String],
     care: [String],

@@ -91,10 +91,10 @@ export default function Footer() {
               Follow Us
             </h4>
             <div className="mt-5 space-y-3 text-[14px] text-white/50">
-              <p>Instagram: @emnethair</p>
-              <p>TikTok: @emnethair</p>
+              <p>https://www.instagram.com/emnet_human_hair?igsh=MW1wZzkyemdtZzF2eQ%3D%3D&utm_source=qr</p>
+              <p>https://www.tiktok.com/@emnethair?_r=1&_t=ZS-97Wimjr0Xiv</p>
               <p>Facebook: Emnet Hair</p>
-              <p>WhatsApp Orders Available</p>
+              <p>WhatsApp Orders Available wa.me/971588211978</p>
             </div>
 
             <p className="mt-9 text-[12px] uppercase tracking-[0.15em] text-[#A8895F]">
